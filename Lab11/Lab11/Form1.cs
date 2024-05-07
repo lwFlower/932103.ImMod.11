@@ -118,18 +118,17 @@ namespace Lab11
             AverageTxt.Text = avrg.ToString();
             VarianceTxt.Text = variance.ToString();
 
-            double[] prob = new double[k1];
-            for (int i = 0; i < prob.Length; i++)
+            double prob = step * ((max + min) / 2);
+            /*for (int i = 0; i < prob.Length; i++)
             {
                 prob[i] = step*((max+min)/2);
-            }
-
+            }*/
             double ChiSq = 0;
-            for (int i = 0; i < k1; i++)
+            for (int i = 0; i < stat.Length; i++)
             {
-                ChiSq += (stat[i] * stat[i]) / (N * prob[i]);
+                ChiSq += (stat[i]* stat[i]) / (N * prob);
             }
-            ChiSq = Math.Round(ChiSq - N, 2);
+            ChiSq = Math.Round(ChiSq, 2);
             ChiTxt.Text = "" + ChiSq;
             double tf;
             switch (k1)
@@ -138,13 +137,21 @@ namespace Lab11
                     ChiTxt.Text += " > 9.488";
                     tf = 9.488;
                     break;
+                case 6:
+                    ChiTxt.Text += " > 12.592";
+                    tf = 12.592;
+                    break;
                 case 9:
                     ChiTxt.Text += " > 16.919";
                     tf = 16.919;
                     break;
-                case 6:
-                    ChiTxt.Text += " > 12.592";
-                    tf = 12.592;
+                case 10:
+                    ChiTxt.Text += " > 18.307";
+                    tf = 18.307;
+                    break;
+                case 100:
+                    ChiTxt.Text += " > 150";
+                    tf = 150;
                     break;
                 default:
                     ChiTxt.Text += " > 50.307";
@@ -154,67 +161,6 @@ namespace Lab11
 
             if (ChiSq > tf) TorFTxt.Text = "is true";
             else TorFTxt.Text = "is false";
-
-            /*while (count < N)
-            {
-                p = x.NextDouble();
-                k = -1;
-                while (!(p <= 0))
-                {
-                    k++;
-                    p -= prob[k];
-                }
-                stat[k]++;
-                count++;
-            }
-
-            for (int jj = 0; jj < freq.Length; jj++)
-            {
-                freq[jj] = (stat[jj] / N);
-                chart1.Series[0].Points.AddXY(jj + 1, freq[jj]);
-            }
-
-
-            double avrg = 0;
-            for (int i = 0; i < prob.Length; i++)
-            {
-                avrg += prob[i] * i;
-            }
-
-            double variance = 0;
-            for (int i = 0; i < prob.Length; i++)
-            {
-                variance += prob[i] * (i - avrg) * (i - avrg);
-            }
-
-            double empavrg = 0;
-            for (int i = 0; i < freq.Length; i++)
-            {
-                empavrg += freq[i] * i;
-            }
-            double empvariance = 0;
-            for (int i = 0; i < freq.Length; i++)
-            {
-                empvariance += freq[i] * (i - empavrg) * (i - empavrg);
-            }
-
-            double absE = Math.Abs(empavrg - avrg);
-            double absD = Math.Abs(empvariance - variance);
-            double errorE = Math.Round(absE / Math.Abs(avrg), 4);
-            double errorD = Math.Round(absD / Math.Abs(variance), 4);
-
-            AverageTxt.Text = "" + avrg + " (error = " + errorE + ")";
-            VarianceTxt.Text = "" + variance + " (error = " + errorD + ")";
-
-            double ChiSq = 0;
-            for (int i = 0; i < prob.Length; i++)
-            {
-                ChiSq += (stat[i] * stat[i]) / (N * prob[i]);
-            }
-            ChiSq = Math.Round(ChiSq - N, 2);
-            ChiTxt.Text = "" + ChiSq + " > 9.488";
-            if (ChiSq > 9.488) TorFTxt.Text = "is true";
-            else TorFTxt.Text = "is false";*/
 
         }
     }
